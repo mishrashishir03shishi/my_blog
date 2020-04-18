@@ -25,7 +25,17 @@
             </div>
             <hr>
             {% endif %}
+            <form class="site-form" action="{% url 'articles:detail' article.pk %}" method="post" enctype="multipart/form-data" style="margin-bottom: 30px;">
+              <div class="row align-items-end">
+              <div class="col-9">
+                {% csrf_token %}
+                {{ form|crispy }}</div>
+                <div class="col-3"  ><button type="submit" class="btn btn-success btn-sm" style="margin-bottom: 20px;">Comment</button></div></div><hr>
+            </form>
+
             {%  if comments %}
+            
+            
             <div class="d-flex justify-content-around">
               <p class="font-weight-bold">Most Recent Comments</p><p class="font-weight-bold">|</p><p class="font-weight-light">{{comments.count}} comments</p>
             </div>
@@ -40,13 +50,7 @@
             {% endif %}
             <hr>
               
-            <form class="site-form" action="{% url 'articles:detail' article.pk %}" method="post" enctype="multipart/form-data" style="margin-bottom: 30px;">
-              <div class="row align-items-end">
-              <div class="col-9">
-                {% csrf_token %}
-                {{ form|crispy }}</div>
-                <div class="col-3"  ><button type="submit" class="btn btn-success btn-sm" style="margin-bottom: 20px;">Comment</button></div></div><hr>
-          </form>
+            
         
 
 
@@ -57,15 +61,7 @@
 
          <div class="col-3">
           
-            <p class="text-left">Search Something:</p>
-                <form method="GET" action= "{% url 'articles:search' %}" >
-                    <div class="input-group mb-3">
-                      <input type="" name="q" value="{{request.GET.q}}" class="form-control" placeholder="Type Something.." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>
-                      </div>
-                    </div>
-                 </form>
+            
              <p class="font-italic font-weight-bold">Categories:</p>
               <ul class="list-group list-group-flush" style="margin-bottom: 20px;">
                 {% for item in categories %}              

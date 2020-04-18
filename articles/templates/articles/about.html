@@ -47,15 +47,7 @@
 			</div>
 			 <div class="col-3">
 	         
-	            <p class="text-left">Search Something:</p>
-	                <form method="GET" action= "{% url 'articles:search' %}" >
-	                    <div class="input-group mb-3">
-	                      <input type="" name="q" value="{{request.GET.q}}" class="form-control" placeholder="Type Something.." aria-label="Recipient's username" aria-describedby="basic-addon2">
-	                      <div class="input-group-append">
-	                        <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>
-	                      </div>
-	                    </div>
-	                 </form>
+	           
             	<p class="font-italic font-weight-bold" >Categories:</p>
 		            <ul class="list-group list-group-flush" style="margin-bottom: 20px;">
 		              {% for item in categories %} 		              		                

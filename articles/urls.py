@@ -7,7 +7,7 @@ app_name = 'articles'
 
 urlpatterns = [
     path('', views.article_list.as_view(), name="list"),
-    path('results/', views.article_search, name="search"),
+    
     re_path(r'^category/(?P<item_id>[0-9]+)/$', views.categorywise_list.as_view(), name="category"),
     path('about/', views.about, name="about"),
     path('create/', views.article_create.as_view(), name="create"),

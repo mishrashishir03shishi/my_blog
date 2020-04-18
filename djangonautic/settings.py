@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'social_django',
+    'django_filters',
 ]
 
 AUTHENTICATION_BACKENDS = [

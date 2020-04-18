@@ -10,18 +10,18 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import FormMixin
+from .filters import ArticleFilter, CategoryArticleFilter
 
 
 class article_list(ListView):
     model = Article
-    template_name='articles/article_list.html'    
-    queryset = Article.objects.all()
-    context_object_name = 'post'
-    paginate_by=15
+    template_name='articles/article_list.html'
+    
 
     def get_context_data(self, **kwargs):
-        context = super(article_list, self).get_context_data(**kwargs)
-        context['categories']=Category.objects.all()        
+        context = super().get_context_data(**kwargs)
+        context['categories']=Category.objects.all()
+        context['filter']=ArticleFilter(self.request.GET, queryset=self.get_queryset())     
         return context
   
     
@@ -39,8 +39,8 @@ class article_detail(FormMixin,LoginRequiredMixin,DetailView):
     def get_context_data(self, **kwargs):
         context = super(article_detail, self).get_context_data(**kwargs)
         context['categories']=Category.objects.all()
-        context['comments'] = self.object.comments.filter()[:10]
-        context['form']=self.get_form()
+        context['comments'] = self.object.comments.filter()[:30]
+        context['form']=self.get_form()         
         return context
 
     def post(self, request, *args, **kwargs):
@@ -59,8 +59,6 @@ class article_detail(FormMixin,LoginRequiredMixin,DetailView):
         return super(article_detail,self).form_valid(form)
        
    
-
-#@login_required(login_url="/accounts/login/")
 class article_create(LoginRequiredMixin,CreateView):
     login_url='/accounts/login/'
     model=Article
@@ -77,7 +75,6 @@ class article_create(LoginRequiredMixin,CreateView):
         return context
 
 
-#@login_required(login_url="/accounts/login/")
 class article_edit(LoginRequiredMixin,UpdateView):
     login_url='/accounts/login/'
     model=Article
@@ -96,7 +93,6 @@ class article_edit(LoginRequiredMixin,UpdateView):
         return context
 
 
-#@login_required(login_url="/accounts/login/")
 class article_delete(LoginRequiredMixin,DeleteView):
     login_url='/accounts/login/'
     model=Article
@@ -115,16 +111,11 @@ class article_delete(LoginRequiredMixin,DeleteView):
         return context
     
 
-def article_search(request):
-    query=request.GET.get('q')
-    post = Article.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(category__categorize__icontains=query))
-    categories=Category.objects.all()    
-    return render(request, 'articles/article_list.html', { 'post': post , 'categories':categories } )
 
 class categorywise_list(ListView):
     model = Article
-    template_name='articles/article_list.html'
-    context_object_name = 'post'
+    template_name='articles/article_list.html' 
+    paginate_by=3   
 
     def get_queryset(self):
         queryset = super(categorywise_list, self).get_queryset()
@@ -133,6 +124,7 @@ class categorywise_list(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(categorywise_list, self).get_context_data(**kwargs)
+        context['filter']=CategoryArticleFilter(self.request.GET, queryset=self.get_queryset()) 
         context['categories']=Category.objects.all()
         return context
 

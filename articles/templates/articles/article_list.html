@@ -1,30 +1,38 @@
 {% extends 'base_layout.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block content%}
   
   <div class="container-fluid">
       <div class="row">
         
-        <div class="col-9" style="border-right:1px solid black;">
-          {% if post %} 
+        <div class="col-10" style="border-right:1px solid black;">
 
-            
-          <p class="h2">Recent Posts</p>
+          <p class="h5" style="margin-bottom: 10px;">Filter Your Results :</p>
+          <hr>
+
+          <div class="row" style="margin-bottom:20px; margin-left: 10px; ">
+            <form method="GET">
+              {{filter.form}}
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-left: 10px;"><span class="fa fa-search"></span> Search</button>           
+          </form>
+            </div>
+            <hr>
+
+            {% if filter.qs %}
+
+
+
+           
+          <p class="h2">Relevant Posts : </p>
                   
 
-                  {% for article in post %}
+                  {% for article in filter.qs %}
 
                   {% if forloop.counter0|divisibleby:3 %} <div class="row "><div class="d-flex justify-content-start"> {%  endif %}
                   
-                  
-
-
-
-                    
-
-
-                  <div class="col-4 py-3 scrollable"> 
+       
+                  <div class="col-4 "> 
 
                   <div class="card" style="margin-bottom: 20px;" >
                     <img class="card-img-top" src="{{article.thumb.url}}" alt="Card image cap" style="max-height:500px; padding: 10px 10px; object-fit: cover;">
@@ -48,40 +56,22 @@
                 
                    {%  if forloop.counter|divisibleby:3 or forloop.last %}</div></div><hr>{%  endif %}
                 {% endfor %}
-                {% if is_paginated %}
-                  <div class="d-flex justify-content-center">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        {% if page_obj.has_previous %}
-                        <li class="page-item"><a class="page-link" href="/?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                        {% endif %}
-                        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
-                        {% if page_obj.has_next %}        
-                        <li class="page-item"><a class="page-link" href="/?page={{ page_obj.next_page_number }}">Next</a></li>
-                        {% endif %}
-                      </ul>
-                    </nav>
-                  </div>
-              {% endif %}   
-                   
-              {% else %}
-              <p class="h3">Sorry, No Articles Found!</p>
-              
-              {% endif %}
+               
+
+
+
+                 {% else %}
+                  <p class="h3">Sorry, No Articles Found!</p>
+
+                {% endif %}
+
+                
           </div>
 
 
-        <div class="col-3" style="height: 100vh;">
+        <div class="col-2" style="height: 100vh;">
           
-            <p class="text-left">Search Something:</p>
-              <form method="GET" action= "{% url 'articles:search' %}" >
-                <div class="input-group mb-3">
-                  <input type="" name="q" value="{{request.GET.q}}" class="form-control" placeholder="Type Something.." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>
-                  </div>
-                </div>
-             </form>
+            
              <p class="font-italic font-weight-bold">Categories:</p>
             <ul class="list-group list-group-flush" style="margin-bottom: 20px;">
               {% for item in categories %}              

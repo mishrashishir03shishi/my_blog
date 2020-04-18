@@ -27,15 +27,7 @@
         
         <div class="col-3">
           <div class="d-flex flex-column">
-            <p class="text-left">Search Something:</p>
-                <form method="GET" action= "{% url 'articles:search' %}" >
-                    <div class="input-group mb-3">
-                      <input type="" name="q" value="{{request.GET.q}}" class="form-control" placeholder="Type Something.." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>
-                      </div>
-                    </div>
-                 </form>
+            
             <p class="font-italic font-weight-bold">Follow me on social media:</p>
             <div class="d-flex justify-content-around">
               <a href="https://www.facebook.com/shishir.mishra.39395" ><i class="fa fa-facebook-square fa-2x" aria-hidden="true" style="color:blue;"></i></a>
