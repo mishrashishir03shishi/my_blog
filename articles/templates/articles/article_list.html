@@ -1,0 +1,103 @@
+{% extends 'base_layout.html' %}
+
+
+{% block content%}
+  
+  <div class="container-fluid">
+      <div class="row">
+        
+        <div class="col-9" style="border-right:1px solid black;">
+          {% if post %} 
+
+            
+          <p class="h2">Recent Posts</p>
+                  
+
+                  {% for article in post %}
+
+                  {% if forloop.counter0|divisibleby:3 %} <div class="row "><div class="d-flex justify-content-start"> {%  endif %}
+                  
+                  
+
+
+
+                    
+
+
+                  <div class="col-4 py-3 scrollable"> 
+
+                  <div class="card" style="margin-bottom: 20px;" >
+                    <img class="card-img-top" src="{{article.thumb.url}}" alt="Card image cap" style="max-height:500px; padding: 10px 10px; object-fit: cover;">
+                    <div class="card-body">
+                      <div style="line-height: 0.8;">
+                      <h5 class="card-title">{{article.title}}</h5>
+                      <p class="text-muted"> <small>{{article.date}} </small> </p>
+                      <p class="text-muted"> <small>By : {{article.author.username}}</small> </p>
+                    </div>
+                      <p class="card-text">{{article.snippet}}</p>
+                      <a href="{% url 'articles:detail' article.pk %}" class="btn btn-primary">Read more</a>
+                     </div>
+                     <ul class="list-group list-group-flush">
+                      <li class="list-group-item">Category : {{article.category}}</li>          
+                      
+                     </ul>
+                     
+                  </div>  
+                  </div>
+                            
+                
+                   {%  if forloop.counter|divisibleby:3 or forloop.last %}</div></div><hr>{%  endif %}
+                {% endfor %}
+                {% if is_paginated %}
+                  <div class="d-flex justify-content-center">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="/?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+                        {% if page_obj.has_next %}        
+                        <li class="page-item"><a class="page-link" href="/?page={{ page_obj.next_page_number }}">Next</a></li>
+                        {% endif %}
+                      </ul>
+                    </nav>
+                  </div>
+              {% endif %}   
+                   
+              {% else %}
+              <p class="h3">Sorry, No Articles Found!</p>
+              
+              {% endif %}
+          </div>
+
+
+        <div class="col-3" style="height: 100vh;">
+          
+            <p class="text-left">Search Something:</p>
+              <form method="GET" action= "{% url 'articles:search' %}" >
+                <div class="input-group mb-3">
+                  <input type="" name="q" value="{{request.GET.q}}" class="form-control" placeholder="Type Something.." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>
+                  </div>
+                </div>
+             </form>
+             <p class="font-italic font-weight-bold">Categories:</p>
+            <ul class="list-group list-group-flush" style="margin-bottom: 20px;">
+              {% for item in categories %}              
+                <a href="{% url 'articles:category' item.id %}" class="text-decoration-none">
+              <li class="list-group-item">{{item}}</li></a>
+              {% endfor %}
+              
+            </ul>
+            <p class="font-italic font-weight-bold" style="margin-top: 10px;">Follow me on social media:</p>
+            <div class="d-flex justify-content-around">
+              <a href="https://www.facebook.com/shishir.mishra.39395" ><i class="fa fa-facebook-square fa-2x" aria-hidden="true" style="color:blue;"></i></a>
+              <a href="https://www.instagram.com/mishrashishir3/" ><i style="font-size:30px; margin-right: 20px; color:red;" class="fa">&#xf16d;</i></a>
+            </div>
+          </div>          
+        </div>         
+        
+      </div>
+    </div>
+    {% endblock %}
