@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'social_django',
     'django_filters',
+    'taggit',
 ]
 
 AUTHENTICATION_BACKENDS = [

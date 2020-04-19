@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 class Category(models.Model):
@@ -18,6 +19,9 @@ class Article(models.Model):
     thumb = models.ImageField(default='default.png', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    approved = models.BooleanField(default=False)
+    tags = TaggableManager()
+
 
     class Meta:
        ordering = ['-date']
@@ -44,3 +48,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
