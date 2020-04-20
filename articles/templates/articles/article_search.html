@@ -14,7 +14,7 @@
             <ul class="messages">
                 {% for message in messages %}
                 <div class="alert alert-success" role="alert">
-                {{message}}
+                {{message}} {{results.count}}
                 </div>
                 {% endfor %}
             </ul>
@@ -25,21 +25,10 @@
             {% if articles %}
 
 
-              <div class="row" style="margin-bottom: 20px;">
-                <div class="col-10">
+
            
-              <p class="h2">Relevant Posts : </p></div>
-              <div class="col-2">
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 Sort By
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'articles:sort_like' %}">Likes</a>
-                <a class="dropdown-item" href="{% url 'articles:sort_date' %}">Oldest to Newest</a>
-                </div>
-              </div>
-                  </div>
+          <p class="h2">Relevant Posts : </p>
+                  
 
                   {% for article in articles %}
 
@@ -73,23 +62,31 @@
                    {%  if forloop.counter|divisibleby:3 or forloop.last %}</div></div><hr>{%  endif %}
                 {% endfor %}
 
-                  {% if is_paginated %}
-                    <div class="d-flex justify-content-center">
-                      <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                          {% if page_obj.has_previous %}
-                          <li class="page-item"><a class="page-link" href="/?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                          {% endif %}                         
-                          <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
-                          {% if page_obj.has_next %}        
-                          <li class="page-item"><a class="page-link" href="/?page={{ page_obj.next_page_number }}">Next</a></li>
-                          {% endif %}
-                        </ul>
-                      </nav>
-                    </div>
+                {% if articles.has_other_pages %}
+                <div class="d-flex justify-content-around">
+                  <ul class="pagination">
+                    {% if articles.has_previous %}
+                      <li><a href="?page={{ articles.previous_page_number }}{% if query %}&q={{query}}{% endif %}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in articles.paginator.page_range %}
+                      {% if articles.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}{% if query %}&q={{query}}{% endif %}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if articles.has_next %}
+                      <li><a href="?page={{ articles.next_page_number }}{% if query %}&q={{query}}{% endif %}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul></div>
+                  {% endif %}
+                
 
-                    {% endif %}  
-                 
+
 
 
 

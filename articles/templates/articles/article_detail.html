@@ -1,7 +1,9 @@
 {% extends 'base_layout.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
 
+ 
 
 <div class="container">
     <div class="row">
@@ -17,16 +19,40 @@
             {% endif %}
 
 
-            <div class="d-flex justify-content-center"><img src="{{article.thumb.url}}" class="img-fluid" alt="Responsive image"></div>            
+            <div class="d-flex justify-content-center"><img src="{{article.thumb.url}}" class="img-fluid" alt="Responsive image"></div>
+            <div class="row"> 
+                <div class="col-8" >          
                 <div style="margin-top: 20px; margin-left: 10px; margin-bottom: 20px; margin-right: 5px;">
                 <h2>{{ article.title }}</h2>
-                <p class="font-weight-light">By: {{article.author}} </p>  
+                <p class="font-weight-light">By: {{article.author}} </p>
+                </div>
+                </div>
+                <div class="col-4">
+                  
+                  {% if request.user == article.author %}
+                  <div class="d-flex justify-content-around " style="margin-top: 20px; margin-bottom: 20px;">
+                  
+                      <a href=" {% url 'articles:edit' article.pk %} "><i style="font-size:24px" class="fa">&#xf044;</i></a> 
+                      <a href=" {% url 'articles:delete' article.pk %} "><i style="font-size:24px" class="fa">&#xf014;</i></a>
+                  </div>
+            
+                  {% endif %}                  
+                </div>
+              </div>
+                
+                  
                 <hr>
                 <p class="font-weight-normal">{{ article.body }}</p>
                 <hr>
-                <p class="font-weight-normal">Published: {{ article.date }} </p>  
+                <p class="font-weight-normal">Published: {{ article.date }} </p> 
+                <hr>
+                <p>Like this Article : <a  class='like-btn' data-href='{{article.get_like_api_url}}' data-likes='{{article.likes.count}}' href="{{article.get_like_url}}"> {% if request.user in article.likes.all %}
+                  <i class="fa fa-thumbs-down" style="font-size:36px; color: black; margin-left: 20px;"></i>
+                  {% else %}
+                  <i class="fa fa-thumbs-up" style="font-size:36px;margin-left: 20px;"></i>
+                   {% endif %}</a></p>
+
                 
-                </div>
             
             <hr>
             
@@ -43,18 +69,7 @@
               <hr>
               {% endif %}
 
-            
-
-
-
-
-            {% if request.user == article.author %}
-            <div class="d-flex justify-content-around " style="margin-top: 20px; margin-bottom: 20px;">
-                <a href=" {% url 'articles:edit' article.pk %} "><button type="button" class="btn btn-primary">Edit</button></a> 
-                <a href=" {% url 'articles:delete' article.pk %} "><button type="button" class="btn btn-danger">Delete</button></a>
-            </div>
-            <hr>
-            {% endif %}
+      
             <form class="site-form" action="{% url 'articles:detail' article.pk %}" method="post" enctype="multipart/form-data" style="margin-bottom: 30px;">
               <div class="row align-items-end">
               <div class="col-9">
@@ -79,17 +94,22 @@
             <p class="font-weight-bold">No comments yet!</p>
             {% endif %}
             <hr>
+          </div>
               
-            
-        
-
-
-
-         </div>
-
+     
          
 
          <div class="col-3">
+
+          <p class="text-left">Search Something:</p>
+              <form method="GET" action= "{% url 'articles:search' %}" >
+                <div class="input-group mb-3">
+                  <input type="" name="q" value="{{request.GET.q}}" class="form-control" placeholder="Type Something.." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> Search</button>
+                  </div>
+                </div>
+             </form>
           
             
              <p class="font-italic font-weight-bold">Categories:</p>

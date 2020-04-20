@@ -31,19 +31,24 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
+    'articles',
+    'crispy_forms',
+    'social_django',
+    'django_filters',
+    'taggit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'articles',
-    'accounts',
-    'crispy_forms',
-    'social_django',
-    'django_filters',
-    'taggit',
+    'django.contrib.staticfiles',  
+    'rest_framework',      
+    
+
 ]
+
+
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
@@ -67,7 +72,7 @@ ROOT_URLCONF = 'djangonautic.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -155,3 +160,12 @@ SOCIAL_AUTH_FACEBOOK_SECRET = 'ab16e112ba0b8468a6287af5a781c0bd'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+EMAIL_HOST='smtp.gmail.com' 
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER='mishrashishir3@gmail.com'
+EMAIL_HOST_PASSWORD='shishie200#'
+DEFAULT_FROM_EMAIL  = 'mishrashishir3@gmail.com'
+SERVER_EMAIL = 'mishrashishir3@gmail.com'

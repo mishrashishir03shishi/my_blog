@@ -19,6 +19,7 @@ class Article(models.Model):
     thumb = models.ImageField(default='default.png', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User,related_name='likes',blank=True)
     approved = models.BooleanField(default=False)
     tags = TaggableManager()
 
@@ -34,6 +35,13 @@ class Article(models.Model):
 
     def snippet(self):
         return self.body[:200] + '...'
+
+    def get_like_url(self):
+        return reverse('articles:like', kwargs={'pk':self.pk})
+
+    def get_api_like_url(self):
+        return reverse('articles:like-api', kwargs={'pk':self.pk})
+
 
 
 
