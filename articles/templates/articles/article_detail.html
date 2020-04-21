@@ -22,21 +22,26 @@
             <div class="d-flex justify-content-center"><img src="{{article.thumb.url}}" class="img-fluid" alt="Responsive image"></div>
             <div class="row"> 
                 <div class="col-8" >          
-                <div style="margin-top: 20px; margin-left: 10px; margin-bottom: 20px; margin-right: 5px;">
+                <div style="margin-top: 20px; margin-left: 10px; margin-bottom:0px; margin-right: 5px;">
                 <h2>{{ article.title }}</h2>
                 <p class="font-weight-light">By: {{article.author}} </p>
+                <p class="text-muted"> <i style="font-size:24px" class="fa">&#xf087;</i> : {{article.likes.count}} </p>
                 </div>
                 </div>
                 <div class="col-4">
+                  <div class="d-flex justify-content-around " style="margin-top: 20px; margin-bottom: 20px;">
+                  
+
                   
                   {% if request.user == article.author %}
-                  <div class="d-flex justify-content-around " style="margin-top: 20px; margin-bottom: 20px;">
+                  
                   
                       <a href=" {% url 'articles:edit' article.pk %} "><i style="font-size:24px" class="fa">&#xf044;</i></a> 
                       <a href=" {% url 'articles:delete' article.pk %} "><i style="font-size:24px" class="fa">&#xf014;</i></a>
-                  </div>
+                  
             
-                  {% endif %}                  
+                  {% endif %}
+                  </div>                  
                 </div>
               </div>
                 
@@ -46,10 +51,10 @@
                 <hr>
                 <p class="font-weight-normal">Published: {{ article.date }} </p> 
                 <hr>
-                <p>Like this Article : <a  class='like-btn' data-href='{{article.get_like_api_url}}' data-likes='{{article.likes.count}}' href="{{article.get_like_url}}"> {% if request.user in article.likes.all %}
-                  <i class="fa fa-thumbs-down" style="font-size:36px; color: black; margin-left: 20px;"></i>
-                  {% else %}
+                <p>Leave a Like : <a  class='like-btn' data-href='{{article.get_like_api_url}}' data-likes='{{article.likes.count}}' href="{{article.get_like_url}}"> {% if request.user in article.likes.all %}
                   <i class="fa fa-thumbs-up" style="font-size:36px;margin-left: 20px;"></i>
+                  {% else %}
+                  <i style="font-size:24px; margin-left: 20px;" class="fa">&#xf087;</i>                  
                    {% endif %}</a></p>
 
                 
@@ -88,7 +93,7 @@
               <div class="alert alert-primary" role="alert">
                 {{comment.content}}
               </div>
-              <p class="font-weight-light">By : {{comment.name}} | {{comment.date}} | {% if request.user == comment.name %}<a href=" {% url 'articles:delete_comment' pk=comment.pk %} "><button   class="btn btn-danger btn-sm" type="submit">Delete</button></a>{% endif %}</p>
+              <p class="font-weight-light">By : {{comment.name}} | {{comment.date}} | {% if request.user == comment.name %}<a href=" {% url 'articles:delete_comment' pk=comment.pk %} "><i style="font-size:18px;px; color: black;" class="fa">&#xf014;</i></a>{% endif %}</p>
             {% endfor %}
             {% else %}
             <p class="font-weight-bold">No comments yet!</p>

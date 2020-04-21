@@ -1,0 +1,21 @@
+We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly.
+
+If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.
+
+'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    {% url 'social:begin' 'google-oauth2' %}
+
+
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '321688613670-ntpgb53lb14cj31i2bum2ial3btq2bma.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '_KD3XlAfK4Go1Jl0wSXqoOkW'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '923068458150932'  
+SOCIAL_AUTH_FACEBOOK_SECRET = 'ab16e112ba0b8468a6287af5a781c0bd'
+
+
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

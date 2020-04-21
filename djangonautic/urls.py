@@ -17,10 +17,10 @@ urlpatterns = [
     path('',include('django.contrib.auth.urls')),
     path('', article_views.article_list.as_view(), name="home"),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-    path('accounts/reset_password/', auth_views.PasswordResetView.as_view(template_name="password_reset_form.html", success_url='/'), name='reset-password'),
-    path('accounts/reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name='password-reset_done'),
-    path('accounts/reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),        
-    path('accounts/reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password-reset-complete'),
+    path('accounts/password_reset/', auth_views.PasswordResetView.as_view(template_name="password_reset_form.html"), name='password_reset'),
+    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name="password_reset_sent_form.html"), name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_confirm_form.html"), name='password_reset_confirm'),        
+    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_complete_form.html"), name='password_reset_complete'),
 ]
 
 

@@ -61,7 +61,7 @@ class article_detail(FormMixin,LoginRequiredMixin,DetailView):
     def get_context_data(self, **kwargs):
         context = super(article_detail, self).get_context_data(**kwargs)
         context['categories']=Category.objects.all()
-        context['comments'] = self.object.comments.filter()[:30]
+        context['comments'] = self.object.comments.filter()[:15]        
         context['tags'] = self.object.tags.similar_objects()[:10]
         context['form']=self.get_form()         
         return context
